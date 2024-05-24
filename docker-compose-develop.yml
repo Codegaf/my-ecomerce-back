@@ -1,0 +1,46 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/develop/Dockerfile
+    container_name: php
+    ports:
+      - "9001:9000"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - my-ecommerce-backend
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/develop/nginx/develop.conf:/etc/nginx/conf.d/default.conf
+    networks:
+        - my-ecommerce-backend
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./docker/develop/mysql/data:/var/lib/mysql
+    networks:
+      - my-ecommerce-backend
+
+networks:
+    my-ecommerce-backend:
+        driver: bridge
