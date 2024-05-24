@@ -5,7 +5,6 @@ on:
     branches:
       - develop
 
-
 env:
   IMAGE_NAME: codegaf/my-ecomerce-back
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
