@@ -43,4 +43,5 @@ services:
 
 networks:
     my-ecommerce-backend:
+        name: my-ecommerce-backend
         driver: bridge
