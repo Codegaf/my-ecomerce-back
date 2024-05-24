@@ -11,6 +11,8 @@ COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+COPY . .
+
 RUN addgroup -g 1000 -S laravel && \
     adduser -u 1000 -S laravel -G laravel
 
